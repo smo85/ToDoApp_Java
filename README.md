@@ -20,8 +20,8 @@ A simple RESTful ToDo List application built with Java, Spring Boot, and JUnit. 
 
 1. Clone the repository:
    ```
-   git clone <repo-url>
-   cd <repo-directory>
+   git clone https://github.com/smo85/ToDoApp_Java.git
+   cd ToDoApp_Java
    ```
 
 2. Build the project:
