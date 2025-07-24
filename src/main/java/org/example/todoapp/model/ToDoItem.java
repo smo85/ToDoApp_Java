@@ -3,17 +3,11 @@ package org.example.todoapp.model;
 import lombok.Builder;
 import lombok.Data;
 
-import java.util.List;
-
 @Data
 @Builder
-public class ToDoList {
+public class ToDoItem {
   private Integer id;
   private String title;
   private String description;
-  private List<ToDoItem> toDoItems;
-
-  public void addTodo(ToDoItem toDoItem) {
-    this.toDoItems.add(toDoItem);
-  }
+  private Boolean completed;
 }
