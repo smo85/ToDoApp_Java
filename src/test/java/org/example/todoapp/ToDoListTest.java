@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,10 +21,19 @@ public class ToDoListTest {
   public static final String DESCRIPTION = "My first TODO";
   public static final int ID = 1;
   public static final String TODO_TITLE = "Get milk";
-  public static final int TODO_ID = 1;
 
   private ToDoList toDoList;
-  private ToDoItem toDoItem;
+
+  private static void createSomeTodos(int numberOfToDoItems, ToDoList toDoList) {
+    for (int i = 0; i < numberOfToDoItems; i++) {
+      ToDoItem toDoItem = createTodoItem(TODO_TITLE + (i + 1));
+      toDoList.addTodo(toDoItem);
+    }
+  }
+
+  private static ToDoItem createTodoItem(String title) {
+    return ToDoItem.builder().title(title).completed(false).build();
+  }
 
   @BeforeEach
   void setUp() {
@@ -34,8 +44,6 @@ public class ToDoListTest {
             .description(DESCRIPTION)
             .toDoItems(new ArrayList<>())
             .build();
-
-    toDoItem = ToDoItem.builder().title(TODO_TITLE).id(TODO_ID).completed(false).build();
   }
 
   @Test
@@ -49,18 +57,35 @@ public class ToDoListTest {
 
   @Test
   void shouldCreateATodoItem() {
+    ToDoItem toDoItem = createTodoItem(TODO_TITLE);
     assertAll(
         () -> assertEquals(TODO_TITLE, toDoItem.getTitle()),
-        () -> assertEquals(TODO_ID, toDoItem.getId()),
         () -> assertFalse(toDoItem.getCompleted()),
         () -> assertNull(toDoItem.getDescription()));
   }
 
+//  @Test
+//  void shouldCreateUniqueIdForNewToDoItem() {}
+
   @Test
   void shouldBeAbleToAddNewToDoItemToList() {
-    toDoList.addTodo(toDoItem);
+    ToDoList newList = ToDoList.builder().build();
+    ToDoItem toDoItem = createTodoItem(TODO_TITLE);
+    newList.addTodo(toDoItem);
     assertAll(
-        () -> assertEquals(1, toDoList.getToDoItems().size()),
-        () -> assertEquals(toDoItem, toDoList.getToDoItems().get(0)));
+        () -> assertEquals(1, newList.getToDoItems().size()),
+        () -> assertEquals(toDoItem, newList.getToDoItems().getFirst()));
+  }
+
+  @Test
+  void shouldDeleteToDoItems() {
+    int numberOfTodos = 3;
+    int idToDelete = 2;
+    createSomeTodos(numberOfTodos, toDoList);
+
+    Boolean wasDeleted = toDoList.deleteTodoItemById(idToDelete);
+    assertTrue(wasDeleted);
+    assertEquals(numberOfTodos - 1, toDoList.getToDoItems().size());
+    assertNull(toDoList.getTodoItemById(idToDelete));
   }
 }
