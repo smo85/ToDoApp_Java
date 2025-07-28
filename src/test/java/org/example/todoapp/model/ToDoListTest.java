@@ -1,4 +1,4 @@
-package org.example.todoapp;
+package org.example.todoapp.model;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -8,8 +8,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.example.todoapp.model.ToDoItem;
-import org.example.todoapp.model.ToDoList;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -64,8 +65,13 @@ public class ToDoListTest {
         () -> assertNull(toDoItem.getDescription()));
   }
 
-//  @Test
-//  void shouldCreateUniqueIdForNewToDoItem() {}
+  @Test
+  void shouldCreateUniqueIdForNewToDoItem() {
+    createSomeTodos(3, toDoList);
+    List<ToDoItem> toDoItems = toDoList.getToDoItems();
+    Set<Integer> uniqueIds = toDoItems.stream().map(ToDoItem::getId).collect(Collectors.toSet());
+    assertEquals(toDoItems.size(), uniqueIds.size());
+  }
 
   @Test
   void shouldBeAbleToAddNewToDoItemToList() {
@@ -88,4 +94,10 @@ public class ToDoListTest {
     assertEquals(numberOfTodos - 1, toDoList.getToDoItems().size());
     assertNull(toDoList.getTodoItemById(idToDelete));
   }
+
+//  @Test
+//  void shouldListAllToDoItems() {
+//    createSomeTodos(4, toDoList);
+//
+//  }
 }
