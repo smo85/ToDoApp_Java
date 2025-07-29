@@ -10,7 +10,7 @@ import lombok.Data;
 @Builder
 public class ToDoList {
   private static final AtomicInteger idCounter = new AtomicInteger(0);
-  private Integer id;
+  private String id;
   private String title;
   private String description;
   private List<ToDoItem> toDoItems;
