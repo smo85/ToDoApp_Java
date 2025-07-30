@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -20,7 +19,7 @@ public class ToDoListTest {
 
   public static final String TITLE = "Test TODO List";
   public static final String DESCRIPTION = "My first TODO";
-  public static final String ID = "1";
+  public static final String ID = "someId";
   public static final String TODO_TITLE = "Get milk";
 
   private ToDoList toDoList;

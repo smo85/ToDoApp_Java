@@ -1,7 +1,6 @@
 package org.example.todoapp.controller;
 
 import java.util.UUID;
-
 import org.example.todoapp.model.ToDoItem;
 import org.example.todoapp.model.ToDoList;
 import org.springframework.web.bind.annotation.GetMapping;
