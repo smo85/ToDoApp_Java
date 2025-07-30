@@ -32,7 +32,7 @@ public class ToDoListTest {
   }
 
   private static ToDoItem createTodoItem(String title) {
-    return ToDoItem.builder().title(title).completed(false).build();
+    return ToDoItem.builder().title(title).build();
   }
 
   @BeforeEach
@@ -61,7 +61,8 @@ public class ToDoListTest {
     assertAll(
         () -> assertEquals(TODO_TITLE, toDoItem.getTitle()),
         () -> assertFalse(toDoItem.getCompleted()),
-        () -> assertNull(toDoItem.getDescription()));
+        () -> assertNull(toDoItem.getDescription()),
+        () -> assertFalse(toDoItem.getCompleted()));
   }
 
   @Test

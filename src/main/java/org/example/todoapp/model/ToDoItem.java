@@ -9,5 +9,6 @@ public class ToDoItem {
   private Integer id;
   private String title;
   private String description;
-  private Boolean completed;
+  @Builder.Default
+  private Boolean completed = false;
 }

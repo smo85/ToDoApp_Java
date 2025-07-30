@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
+import org.example.todoapp.model.ToDoItem;
 import org.example.todoapp.model.ToDoList;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -49,5 +50,25 @@ class ToDoControllerTest {
     assertEquals(newTodoList.getTitle(), response.getTitle());
     assertEquals(newTodoList.getDescription(), response.getDescription());
     assertNull(response.getToDoItems());
+  }
+
+  @Test
+  void shouldAddANewToDoItem() {
+    ToDoItem newToDoItem = ToDoItem.builder().title("Get some milk").build();
+    ToDoList response =
+        given()
+            .body(newToDoItem)
+            .contentType("application/json")
+            .when()
+            .post("/to-do-lists/add-to-do")
+            .then()
+            .statusCode(200)
+            .extract()
+            .body()
+            .as(ToDoList.class);
+
+    assertNotNull(response.getId());
+    ToDoItem addedToDoItem = response.getToDoItems().getFirst();
+    assertEquals(addedToDoItem.getTitle(), newToDoItem.getTitle());
   }
 }
