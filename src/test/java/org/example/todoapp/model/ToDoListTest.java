@@ -20,7 +20,7 @@ public class ToDoListTest {
 
   public static final String TITLE = "Test TODO List";
   public static final String DESCRIPTION = "My first TODO";
-  public static final int ID = 1;
+  public static final String ID = "1";
   public static final String TODO_TITLE = "Get milk";
 
   private ToDoList toDoList;
@@ -33,7 +33,7 @@ public class ToDoListTest {
   }
 
   private static ToDoItem createTodoItem(String title) {
-    return ToDoItem.builder().title(title).completed(false).build();
+    return ToDoItem.builder().title(title).build();
   }
 
   @BeforeEach
@@ -62,7 +62,8 @@ public class ToDoListTest {
     assertAll(
         () -> assertEquals(TODO_TITLE, toDoItem.getTitle()),
         () -> assertFalse(toDoItem.getCompleted()),
-        () -> assertNull(toDoItem.getDescription()));
+        () -> assertNull(toDoItem.getDescription()),
+        () -> assertFalse(toDoItem.getCompleted()));
   }
 
   @Test
@@ -94,10 +95,4 @@ public class ToDoListTest {
     assertEquals(numberOfTodos - 1, toDoList.getToDoItems().size());
     assertNull(toDoList.getTodoItemById(idToDelete));
   }
-
-//  @Test
-//  void shouldListAllToDoItems() {
-//    createSomeTodos(4, toDoList);
-//
-//  }
 }
