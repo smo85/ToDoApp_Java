@@ -7,15 +7,17 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 
 import org.example.todoapp.model.ToDoItem;
 import org.example.todoapp.model.ToDoList;
+import org.example.todoapp.repository.ToDoListRepository;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 class ToDoControllerTest {
+  @Autowired private ToDoListRepository toDoListRepository;
 
   public static final String TITLE = "Some Todo Title";
   public static final String DESCRIPTION = "some todo description";
-  public static final String MOCK_UUID = "123e4567-e89b-12d3-a456-426614174000";
 
   @Test
   void shouldReturnToDoList() {
@@ -54,20 +56,23 @@ class ToDoControllerTest {
 
   @Test
   void shouldAddANewToDoItem() {
+    ToDoList newTodoList = ToDoList.builder().title(TITLE).description(DESCRIPTION).build();
+    toDoListRepository.save(newTodoList);
+
     ToDoItem newToDoItem = ToDoItem.builder().title("Get some milk").build();
     ToDoList response =
         given()
             .body(newToDoItem)
             .contentType("application/json")
             .when()
-            .post("/to-do-lists/add-to-do")
+            .post("/to-do-lists/{id}/add-to-do", newTodoList.getId())
             .then()
             .statusCode(200)
             .extract()
             .body()
             .as(ToDoList.class);
 
-    assertNotNull(response.getId());
+    assertEquals(newTodoList.getId(), response.getId());
     ToDoItem addedToDoItem = response.getToDoItems().getFirst();
     assertEquals(addedToDoItem.getTitle(), newToDoItem.getTitle());
   }
