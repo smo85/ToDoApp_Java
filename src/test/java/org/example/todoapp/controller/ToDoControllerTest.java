@@ -2,6 +2,7 @@ package org.example.todoapp.controller;
 
 import static io.restassured.RestAssured.given;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
@@ -96,6 +97,24 @@ class ToDoControllerTest {
         .statusCode(200);
 
     assertNull(toDoListService.getToDoListById(newTodoList.getId()));
+  }
+
+  @Test
+  void shouldThrowErrorIfNoToDoListFound() {
+    ToDoList newTodoList = ToDoList.builder().title(TITLE).description(DESCRIPTION).build();
+    toDoListRepository.save(newTodoList);
+
+    ToDoItem newToDoItem = ToDoItem.builder().title("Get some milk").build();
+    String invalidId = "some-id-that-does-not-exist";
+
+    given()
+        .body(newToDoItem)
+        .contentType("application/json")
+        .when()
+        .post("/to-do-lists/{id}/add-to-do", invalidId)
+        .then()
+        .statusCode(500);
+    // TODO - add more robust error handling
   }
 
   // shouldDeleteToDoItemFromList
