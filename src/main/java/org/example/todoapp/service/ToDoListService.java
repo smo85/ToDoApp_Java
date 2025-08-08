@@ -1,9 +1,11 @@
 package org.example.todoapp.service;
 
 import lombok.RequiredArgsConstructor;
+import org.example.todoapp.model.ToDoItem;
 import org.example.todoapp.model.ToDoList;
 import org.example.todoapp.repository.ToDoListRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -15,8 +17,17 @@ public class ToDoListService {
   }
 
   public ToDoList getToDoListById(String listId) {
-    return toDoListRepository
-        .findById(listId)
-        .orElseThrow(() -> new IllegalArgumentException("ToDoList not found: " + listId));
+    return toDoListRepository.findById(listId).orElse(null);
+  }
+
+  @Transactional
+  public ToDoList addNewToDoItem(String listId, ToDoItem toDoItem) {
+    ToDoList toDoList = getToDoListById(listId);
+    toDoList.addTodo(toDoItem);
+    return toDoList;
+  }
+
+  public void deleteToDoList(String listId) {
+    toDoListRepository.deleteById(listId);
   }
 }

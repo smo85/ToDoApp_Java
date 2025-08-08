@@ -10,8 +10,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import org.example.todoapp.repository.ToDoListRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
@@ -23,6 +26,7 @@ public class ToDoListTest {
   public static final String TODO_TITLE = "Get milk";
 
   private ToDoList toDoList;
+  @Autowired private ToDoListRepository toDoListRepository;
 
   private static void createSomeTodos(int numberOfToDoItems, ToDoList toDoList) {
     for (int i = 0; i < numberOfToDoItems; i++) {
@@ -68,7 +72,8 @@ public class ToDoListTest {
   @Test
   void shouldCreateUniqueIdForNewToDoItem() {
     createSomeTodos(3, toDoList);
-    List<ToDoItem> toDoItems = toDoList.getToDoItems();
+    ToDoList updateToDoList = toDoListRepository.save(toDoList);
+    List<ToDoItem> toDoItems = updateToDoList.getToDoItems();
     Set<Integer> uniqueIds = toDoItems.stream().map(ToDoItem::getId).collect(Collectors.toSet());
     assertEquals(toDoItems.size(), uniqueIds.size());
   }
@@ -88,10 +93,11 @@ public class ToDoListTest {
     int numberOfTodos = 3;
     int idToDelete = 2;
     createSomeTodos(numberOfTodos, toDoList);
+    ToDoList updateToDoList = toDoListRepository.save(toDoList);
 
-    Boolean wasDeleted = toDoList.deleteTodoItemById(idToDelete);
+    Boolean wasDeleted = updateToDoList.deleteTodoItemById(idToDelete);
     assertTrue(wasDeleted);
-    assertEquals(numberOfTodos - 1, toDoList.getToDoItems().size());
-    assertNull(toDoList.getTodoItemById(idToDelete));
+    assertEquals(numberOfTodos - 1, updateToDoList.getToDoItems().size());
+    assertNull(updateToDoList.getTodoItemById(idToDelete));
   }
 }

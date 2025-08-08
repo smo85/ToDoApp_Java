@@ -5,26 +5,31 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
+import java.util.List;
 import org.example.todoapp.model.ToDoItem;
 import org.example.todoapp.model.ToDoList;
 import org.example.todoapp.repository.ToDoListRepository;
+import org.example.todoapp.service.ToDoListService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 class ToDoControllerTest {
-  @Autowired private ToDoListRepository toDoListRepository;
-
   public static final String TITLE = "Some Todo Title";
   public static final String DESCRIPTION = "some todo description";
+  @Autowired private ToDoListRepository toDoListRepository;
+  @Autowired private ToDoListService toDoListService;
 
   @Test
   void shouldReturnToDoList() {
+    ToDoList newTodoList = ToDoList.builder().title(TITLE).description(DESCRIPTION).build();
+    toDoListRepository.save(newTodoList);
+
     ToDoList response =
         given()
             .when()
-            .get("/to-do-lists")
+            .get("/to-do-lists/{id}", newTodoList.getId())
             .then()
             .statusCode(200)
             .extract()
@@ -51,7 +56,7 @@ class ToDoControllerTest {
     assertNotNull(response.getId());
     assertEquals(newTodoList.getTitle(), response.getTitle());
     assertEquals(newTodoList.getDescription(), response.getDescription());
-    assertNull(response.getToDoItems());
+    assertEquals(List.of(), response.getToDoItems());
   }
 
   @Test
@@ -76,4 +81,21 @@ class ToDoControllerTest {
     ToDoItem addedToDoItem = response.getToDoItems().getFirst();
     assertEquals(addedToDoItem.getTitle(), newToDoItem.getTitle());
   }
+
+  @Test
+  void shouldDeleteToDoList() {
+    ToDoList newTodoList = ToDoList.builder().title(TITLE).description(DESCRIPTION).build();
+    toDoListRepository.save(newTodoList);
+
+    given()
+        .when()
+        .post("/to-do-lists/{id}/delete-to-do-list", newTodoList.getId())
+        .then()
+        .statusCode(200);
+
+    assertNull(toDoListService.getToDoListById(newTodoList.getId()));
+  }
+
+  // shouldDeleteToDoItemFromList
+  // shouldCompleteToDoItem
 }

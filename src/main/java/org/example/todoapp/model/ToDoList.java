@@ -3,10 +3,11 @@ package org.example.todoapp.model;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,20 +19,20 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ToDoList {
-  private static final AtomicInteger idCounter = new AtomicInteger(0);
-  @Id
-  private String id;
+  @Id @Builder.Default private String id = UUID.randomUUID().toString();
   private String title;
   private String description;
-  @OneToMany(mappedBy = "toDoList", cascade = CascadeType.ALL, orphanRemoval = true)
-  private List<ToDoItem> toDoItems;
 
-  public void addTodo(ToDoItem toDoItem) {
-    toDoItem.setId(idCounter.incrementAndGet());
+  @Builder.Default
+  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+  @JoinColumn(name = "todo_list_id")
+  private List<ToDoItem> toDoItems = new ArrayList<>();
+
+  public void addTodo(ToDoItem newToDoItem) {
     if (toDoItems == null) {
       toDoItems = new ArrayList<>();
     }
-    toDoItems.add(toDoItem);
+    this.toDoItems.add(newToDoItem);
   }
 
   public ToDoItem getTodoItemById(Integer id) {

@@ -1,6 +1,5 @@
 package org.example.todoapp.controller;
 
-import java.util.UUID;
 import lombok.AllArgsConstructor;
 import org.example.todoapp.model.ToDoItem;
 import org.example.todoapp.model.ToDoList;
@@ -18,17 +17,15 @@ import org.springframework.web.bind.annotation.RestController;
 public class ToDoController {
   private final ToDoListService toDoListService;
 
-  @GetMapping
-  public ToDoList getToDoList() {
-    return ToDoList.builder().title("my-first-todo").build();
+  @GetMapping({"{listId}"})
+  public ToDoList getToDoList(@PathVariable String listId) {
+    return toDoListService.getToDoListById(listId);
   }
 
   @PostMapping
   public ToDoList createToDoList(@RequestBody ToDoList toDoList) {
-    String id = UUID.randomUUID().toString();
     ToDoList newList =
         ToDoList.builder()
-            .id(id)
             .title(toDoList.getTitle())
             .description(toDoList.getDescription())
             .build();
@@ -37,8 +34,11 @@ public class ToDoController {
 
   @PostMapping("{listId}/add-to-do")
   public ToDoList addNewToDoItem(@RequestBody ToDoItem toDoItem, @PathVariable String listId) {
-    ToDoList list = toDoListService.getToDoListById(listId);
-    list.addTodo(toDoItem);
-    return list;
+    return toDoListService.addNewToDoItem(listId, toDoItem);
+  }
+
+  @PostMapping("{listId}/delete-to-do-list")
+  public void deleteToDoList(@PathVariable String listId) {
+    toDoListService.deleteToDoList(listId);
   }
 }
