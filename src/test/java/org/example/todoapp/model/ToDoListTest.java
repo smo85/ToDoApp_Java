@@ -65,8 +65,7 @@ public class ToDoListTest {
     assertAll(
         () -> assertEquals(TODO_TITLE, toDoItem.getTitle()),
         () -> assertFalse(toDoItem.getCompleted()),
-        () -> assertNull(toDoItem.getDescription()),
-        () -> assertFalse(toDoItem.getCompleted()));
+        () -> assertNull(toDoItem.getDescription()));
   }
 
   @Test
