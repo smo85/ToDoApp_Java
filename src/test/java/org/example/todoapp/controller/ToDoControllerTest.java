@@ -78,7 +78,9 @@ class ToDoControllerTest {
             .as(ToDoList.class);
 
     assertEquals(newTodoList.getId(), response.getId());
-    ToDoItem addedToDoItem = response.getToDoItems().getFirst();
+    List<ToDoItem> toDoItems = response.getToDoItems();
+    assertFalse(toDoItems.isEmpty(), "Expected at least one ToDoItem in the list");
+    ToDoItem addedToDoItem = toDoItems.getFirst();
     assertEquals(addedToDoItem.getTitle(), newToDoItem.getTitle());
   }
 
