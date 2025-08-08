@@ -23,6 +23,9 @@ public class ToDoListService {
   @Transactional
   public ToDoList addNewToDoItem(String listId, ToDoItem toDoItem) {
     ToDoList toDoList = getToDoListById(listId);
+    if (toDoList == null) {
+      throw new NoSuchElementException("ToDoList with id " + listId + " not found");
+    }
     toDoList.addTodo(toDoItem);
     return toDoList;
   }
