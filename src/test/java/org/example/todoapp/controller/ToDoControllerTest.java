@@ -117,6 +117,29 @@ class ToDoControllerTest {
     // TODO - add more robust error handling
   }
 
+  @Test
+  void shouldReturnAllToDoLists() {
+    ToDoList newTodoList1 = ToDoList.builder().title(TITLE + "1").description(DESCRIPTION).build();
+    ToDoList newTodoList2 = ToDoList.builder().title(TITLE + "2").description(DESCRIPTION).build();
+    ToDoList newTodoList3 = ToDoList.builder().title(TITLE + "3").description(DESCRIPTION).build();
+    toDoListRepository.save(newTodoList1);
+    toDoListRepository.save(newTodoList2);
+    toDoListRepository.save(newTodoList3);
+
+    List<ToDoList> response =
+        given()
+            .when()
+            .get("/to-do-lists")
+            .then()
+            .statusCode(200)
+            .extract()
+            .body()
+            .jsonPath()
+            .getList(".", ToDoList.class);
+
+    assertEquals(3, response.size());
+  }
+
   // shouldDeleteToDoItemFromList
   // shouldCompleteToDoItem
 }

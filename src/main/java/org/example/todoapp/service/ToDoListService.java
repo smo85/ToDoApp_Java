@@ -1,13 +1,13 @@
 package org.example.todoapp.service;
 
+import java.util.List;
+import java.util.NoSuchElementException;
 import lombok.RequiredArgsConstructor;
 import org.example.todoapp.model.ToDoItem;
 import org.example.todoapp.model.ToDoList;
 import org.example.todoapp.repository.ToDoListRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.NoSuchElementException;
 
 @Service
 @RequiredArgsConstructor
@@ -34,5 +34,9 @@ public class ToDoListService {
 
   public void deleteToDoList(String listId) {
     toDoListRepository.deleteById(listId);
+  }
+
+  public List<ToDoList> getAllToDoLists() {
+    return toDoListRepository.findAll();
   }
 }

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>ToDo Lists</title>
+    <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<header>
+    <h1>ToDo Lists</h1>
+    <button id="refreshListsBtn">Refresh Lists</button>
+</header>
+
+<main>
+    <section id="listsSection">
+        <h2>Lists</h2>
+        <ul id="listsUl"></ul>
+    </section>
+
+    <section id="detailsSection">
+        <h2 id="listTitle">Select a list</h2>
+        <p id="listDescription"></p>
+        <table id="itemsTable" class="hidden">
+            <thead>
+            <tr><th>ID</th><th>Title</th><th>Completed</th></tr>
+            </thead>
+            <tbody id="itemsTbody"></tbody>
+        </table>
+    </section>
+</main>
+
+<footer>
+    <small>&copy; ToDo App</small>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
