@@ -1,0 +1,85 @@
+body {
+    font-family: system-ui, Arial, sans-serif;
+    margin: 0;
+    color: #222;
+    background: #f6f7f9;
+}
+header, footer {
+    background: #263238;
+    color: #fff;
+    padding: 0.75rem 1rem;
+}
+h1 {
+    margin: 0;
+    font-size: 1.25rem;
+}
+main {
+    display: flex;
+    gap: 1rem;
+    padding: 1rem;
+    align-items: flex-start;
+}
+section {
+    background: #fff;
+    padding: 1rem;
+    border-radius: 6px;
+    box-shadow: 0 1px 3px rgba(0,0,0,.1);
+    flex: 1 1 50%;
+    min-height: 300px;
+}
+#listsUl {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+#listsUl li {
+    padding: 0.5rem 0.6rem;
+    border-bottom: 1px solid #e3e5e8;
+    cursor: pointer;
+}
+#listsUl li:last-child {
+    border-bottom: none;
+}
+#listsUl li:hover {
+    background: #eef3ff;
+}
+.list-item.active {
+    background: #d9e7ff;
+    font-weight: 600;
+}
+.error {
+    color: #b71c1c;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: .75rem;
+    font-size: .9rem;
+}
+th, td {
+    padding: 0.45rem 0.5rem;
+    border: 1px solid #d0d5db;
+    text-align: left;
+}
+th {
+    background: #f0f3f7;
+}
+.hidden {
+    display: none;
+}
+button {
+    background: #1976d2;
+    color: #fff;
+    border: none;
+    padding: .5rem .9rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: .85rem;
+}
+button:hover {
+    background: #115a9c;
+}
+footer {
+    text-align: center;
+    font-size: .75rem;
+}

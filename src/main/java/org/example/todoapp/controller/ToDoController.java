@@ -1,5 +1,6 @@
 package org.example.todoapp.controller;
 
+import java.util.List;
 import lombok.AllArgsConstructor;
 import org.example.todoapp.model.ToDoItem;
 import org.example.todoapp.model.ToDoList;
@@ -16,6 +17,11 @@ import org.springframework.web.bind.annotation.RestController;
 @AllArgsConstructor
 public class ToDoController {
   private final ToDoListService toDoListService;
+
+  @GetMapping
+  public List<ToDoList> getAllToDoLists() {
+    return toDoListService.getAllToDoLists();
+  }
 
   @GetMapping({"{listId}"})
   public ToDoList getToDoList(@PathVariable String listId) {
