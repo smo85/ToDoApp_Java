@@ -11,6 +11,7 @@ import org.example.todoapp.model.ToDoItem;
 import org.example.todoapp.model.ToDoList;
 import org.example.todoapp.repository.ToDoListRepository;
 import org.example.todoapp.service.ToDoListService;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -21,6 +22,11 @@ class ToDoControllerTest {
   public static final String DESCRIPTION = "some todo description";
   @Autowired private ToDoListRepository toDoListRepository;
   @Autowired private ToDoListService toDoListService;
+
+  @AfterEach
+  void setup() {
+    toDoListRepository.deleteAll();
+  }
 
   @Test
   void shouldReturnToDoList() {
@@ -36,7 +42,7 @@ class ToDoControllerTest {
             .extract()
             .body()
             .as(ToDoList.class);
-    System.out.println(response);
+    assertNotNull(response);
   }
 
   @Test
@@ -138,6 +144,9 @@ class ToDoControllerTest {
             .getList(".", ToDoList.class);
 
     assertEquals(3, response.size());
+    toDoListRepository.delete(newTodoList1);
+    toDoListRepository.delete(newTodoList2);
+    toDoListRepository.delete(newTodoList3);
   }
 
   // shouldDeleteToDoItemFromList

@@ -12,6 +12,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.example.todoapp.repository.ToDoListRepository;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,11 @@ public class ToDoListTest {
 
   private ToDoList toDoList;
   @Autowired private ToDoListRepository toDoListRepository;
+
+  @AfterEach
+  void setup() {
+    toDoListRepository.deleteAll();
+  }
 
   private static void createSomeTodos(int numberOfToDoItems, ToDoList toDoList) {
     for (int i = 0; i < numberOfToDoItems; i++) {
