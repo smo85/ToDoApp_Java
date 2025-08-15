@@ -40,7 +40,7 @@ public class ToDoListService {
     return toDoListRepository.findAll();
   }
 
-  public void updateToDoItem(String listId, int itemId, ToDoItem patch) {
+  public ToDoList updateToDoItem(String listId, int itemId, ToDoItem patch) {
     ToDoList toDoList = getToDoListById(listId);
     if (toDoList == null) {
       throw new NoSuchElementException("ToDoList with id " + listId + " not found");
@@ -62,6 +62,6 @@ public class ToDoListService {
       toDoItem.setCompleted(patch.getCompleted());
     }
 
-
+    return toDoListRepository.save(toDoList);
   }
 }

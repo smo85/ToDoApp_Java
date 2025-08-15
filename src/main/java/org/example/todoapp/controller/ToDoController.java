@@ -49,8 +49,8 @@ public class ToDoController {
     toDoListService.deleteToDoList(listId);
   }
 
-  @PatchMapping("{listId}/edit-to-do-list/{itemId}")
-  public void editToDoList(@PathVariable String listId, @PathVariable int itemId, @RequestBody ToDoItem patch) {
+  @PatchMapping("{listId}/edit-to-do-list-item/{itemId}")
+  public ToDoList editToDoList(@PathVariable String listId, @PathVariable int itemId, @RequestBody ToDoItem patch) {
     return toDoListService.updateToDoItem(listId, itemId, patch);
   }
 }

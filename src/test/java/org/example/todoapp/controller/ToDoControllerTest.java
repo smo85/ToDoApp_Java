@@ -152,7 +152,7 @@ class ToDoControllerTest {
             .body(item1)
             .contentType("application/json")
             .when()
-            .post("/to-do-lists/{id}/edit-to-do-list-item/{itemId}", newTodoList.getId(), 1)
+            .patch("/to-do-lists/{id}/edit-to-do-list-item/{itemId}", newTodoList.getId(), 1)
             .then()
             .statusCode(200)
             .extract()
@@ -170,8 +170,8 @@ class ToDoControllerTest {
     newTodoList.addTodo(newItem1);
     newTodoList.addTodo(newItem2);
     newTodoList.addTodo(newItem3);
-    toDoListRepository.save(newTodoList);
-    return newTodoList;
+
+    return toDoListRepository.save(newTodoList);
   }
 
   // shouldDeleteToDoItemFromList
