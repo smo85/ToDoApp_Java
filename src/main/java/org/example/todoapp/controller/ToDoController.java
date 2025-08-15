@@ -6,6 +6,7 @@ import org.example.todoapp.model.ToDoItem;
 import org.example.todoapp.model.ToDoList;
 import org.example.todoapp.service.ToDoListService;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -46,5 +47,10 @@ public class ToDoController {
   @PostMapping("{listId}/delete-to-do-list")
   public void deleteToDoList(@PathVariable String listId) {
     toDoListService.deleteToDoList(listId);
+  }
+
+  @PatchMapping("{listId}/edit-to-do-list-item/{itemId}")
+  public ToDoList editToDoList(@PathVariable String listId, @PathVariable int itemId, @RequestBody ToDoItem patch) {
+    return toDoListService.updateToDoItem(listId, itemId, patch);
   }
 }
