@@ -1,0 +1,33 @@
+###
+POST http://localhost:8080/to-do-lists
+Content-Type: application/json
+
+{
+  "id": "",
+  "title": "Groceries",
+  "description": "",
+  "toDoItems": []
+}
+
+###
+@listId = 853ae12e-516f-4046-b916-d647567b0f7d
+POST http://localhost:8080/to-do-lists/{{listId}}/add-to-do
+Content-Type: application/json
+
+{
+  "title": "Broccoli",
+  "description": "",
+  "completed": false
+}
+
+###
+GET http://localhost:8080/to-do-lists
+
+###
+@itemId = 1
+PATCH http://localhost:8080/to-do-lists/{{listId}}/edit-to-do-list-item/{{itemId}}
+Content-Type: application/json
+
+{
+  "completed": true
+}

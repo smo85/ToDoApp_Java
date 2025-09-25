@@ -93,7 +93,7 @@ class ToDoControllerTest {
 
     given()
         .when()
-        .post("/to-do-lists/{id}/delete-to-do-list", newTodoList.getId())
+        .delete("/to-do-lists/{id}/delete-to-do-list", newTodoList.getId())
         .then()
         .statusCode(200);
 

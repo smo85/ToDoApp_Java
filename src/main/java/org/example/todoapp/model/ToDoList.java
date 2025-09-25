@@ -52,11 +52,4 @@ public class ToDoList {
     }
     return false;
   }
-
-//  public void updateTodoItem(ToDoItem toDoItem, ToDoList toDoList, int itemId) {
-//    if(toDoList.getTodoItemById(itemId) != null) {
-//      toDoList.
-//    }
-//
-//  }
 }
