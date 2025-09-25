@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import org.example.todoapp.model.ToDoItem;
 import org.example.todoapp.model.ToDoList;
 import org.example.todoapp.service.ToDoListService;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -44,7 +45,8 @@ public class ToDoController {
     return toDoListService.addNewToDoItem(listId, toDoItem);
   }
 
-  @PostMapping("{listId}/delete-to-do-list")
+  // should this be @DeleteMapping
+  @DeleteMapping("{listId}/delete-to-do-list")
   public void deleteToDoList(@PathVariable String listId) {
     toDoListService.deleteToDoList(listId);
   }
