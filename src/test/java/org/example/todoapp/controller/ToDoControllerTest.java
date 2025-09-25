@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 import org.example.todoapp.model.ToDoItem;
@@ -147,6 +148,39 @@ class ToDoControllerTest {
     toDoListRepository.delete(newTodoList1);
     toDoListRepository.delete(newTodoList2);
     toDoListRepository.delete(newTodoList3);
+  }
+
+  @Test
+  void shouldBeAbleToEditAToDoItem() {
+    ToDoList newTodoList = createToDoWithToDoItems();
+    ToDoItem item1 = newTodoList.getTodoItemById(1);
+    item1.setCompleted(true);
+
+    ToDoList response =
+        given()
+            .body(item1)
+            .contentType("application/json")
+            .when()
+            .patch("/to-do-lists/{id}/edit-to-do-list-item/{itemId}", newTodoList.getId(), 1)
+            .then()
+            .statusCode(200)
+            .extract()
+            .body()
+            .as(ToDoList.class);
+
+    assertTrue(response.getTodoItemById(1).getCompleted());
+  }
+
+  ToDoList createToDoWithToDoItems() {
+    ToDoList newTodoList = ToDoList.builder().title("Groceries").description(DESCRIPTION).build();
+    ToDoItem newItem1 = ToDoItem.builder().title("Milk").build();
+    ToDoItem newItem2 = ToDoItem.builder().title("Cheese").build();
+    ToDoItem newItem3 = ToDoItem.builder().title("Broccoli").build();
+    newTodoList.addTodo(newItem1);
+    newTodoList.addTodo(newItem2);
+    newTodoList.addTodo(newItem3);
+
+    return toDoListRepository.save(newTodoList);
   }
 
   // shouldDeleteToDoItemFromList
